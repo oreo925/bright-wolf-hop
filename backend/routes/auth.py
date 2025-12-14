@@ -16,10 +16,9 @@ async def signup(user: UserCreate):
         )
     
     hashed_password = hash_password(user.password)
-    user_data = user.dict()
-    del user_data["password"]
     new_user = User(
-        **user_data,
+        email=user.email,
+        display_name=user.display_name,
         password=hashed_password
     )
     await new_user.insert()
