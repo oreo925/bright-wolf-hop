@@ -20,26 +20,28 @@ async def create_reflection(reflection_data: ReflectionCreate, current_user: Use
     await new_reflection.insert()
 
 
-    if new_reflection.sharedWithType == "herd" and new_reflection.sharedWithId:
-        herd = await Herd.get(PydanticObjectId(new_reflection.sharedWithId))
-        if herd:
-            for member_id in herd.member_ids:
-                if member_id != current_user.id:
-                    notification = Notification(
-                        recipient_id=member_id,
-                        sender_id=current_user.id,
-                        type="reflection_shared",
-                        message=f"{current_user.displayName} shared a reflection with your herd: {herd.name}"
-                    )
-                    await notification.insert()
-    elif new_reflection.sharedWithType == "friend" and new_reflection.sharedWithId:
-        notification = Notification(
-            recipient_id=PydanticObjectId(new_reflection.sharedWithId),
-            sender_id=current_user.id,
-            type="reflection_shared",
-            message=f"{current_user.displayName} shared a reflection with you"
-        )
-        await notification.insert()
+    if new_reflection.sharedWithType == "herd" and new_reflection.sharedWithIds:
+        for herd_id in new_reflection.sharedWithIds:
+            herd = await Herd.get(PydanticObjectId(herd_id))
+            if herd:
+                for member_id in herd.member_ids:
+                    if member_id != current_user.id:
+                        notification = Notification(
+                            recipient_id=member_id,
+                            sender_id=current_user.id,
+                            type="reflection_shared",
+                            message=f"{current_user.displayName} shared a reflection with your herd: {herd.name}"
+                        )
+                        await notification.insert()
+    elif new_reflection.sharedWithType == "friend" and new_reflection.sharedWithIds:
+        for friend_id in new_reflection.sharedWithIds:
+            notification = Notification(
+                recipient_id=PydanticObjectId(friend_id),
+                sender_id=current_user.id,
+                type="reflection_shared",
+                message=f"{current_user.displayName} shared a reflection with you"
+            )
+            await notification.insert()
 
     return new_reflection
 
@@ -55,28 +57,22 @@ async def get_reflections(current_user: User = Depends(get_current_user)):
     # Find reflections shared with those herds
     herd_reflections = await Reflection.find(
         Reflection.sharedWithType == "herd",
-        In(Reflection.sharedWithId, herd_ids)
+        In(Reflection.sharedWithIds, herd_ids)
     ).to_list()
 
     # Find reflections shared with the user as a friend
     friend_reflections = await Reflection.find(
         Reflection.sharedWithType == "friend",
-        Reflection.sharedWithId == str(current_user.id)
+        In(Reflection.sharedWithIds, [str(current_user.id)])
     ).to_list()
     
     # Combine and deduplicate
     all_reflections = {r.id: r for r in user_reflections + herd_reflections + friend_reflections}
     
-    # Manually populate reactions for each reflection
-    populated_reflections = []
-    for r in all_reflections.values():
-        populated_r = r.model_dump()
-        populated_r["id"] = str(r.id)
-        reactions = await Reaction.find(In("_id", r.reactions)).to_list()
-        populated_r["reactions"] = [reaction.model_dump() for reaction in reactions]
-        populated_reflections.append(populated_r)
-
-    return populated_reflections
+    # Sort reflections by creation date
+    sorted_reflections = sorted(all_reflections.values(), key=lambda r: r.createdAt, reverse=True)
+    
+    return sorted_reflections
 
 @router.get("/{reflection_id}", response_model=Reflection)
 async def get_reflection(reflection_id: PydanticObjectId, current_user: User = Depends(get_current_user)):

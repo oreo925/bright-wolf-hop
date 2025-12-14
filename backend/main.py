@@ -36,14 +36,15 @@ app.add_middleware(
 async def health_check():
     return await ping_server()
 
+router.include_router(auth_router.router, prefix="/auth", tags=["auth"])
+router.include_router(herds_router.router, prefix="/herds", tags=["herds"])
+router.include_router(reflections_router.router, prefix="/reflections", tags=["reflections"])
+router.include_router(users_router.router, prefix="/users", tags=["users"])
+router.include_router(reactions_router.router, prefix="/reactions", tags=["reactions"])
+router.include_router(friends_router.router, prefix="/friends", tags=["friends"])
+router.include_router(notifications_router.router, prefix="/notifications", tags=["notifications"])
+
 app.include_router(router)
-app.include_router(auth_router.router, prefix="/api/v1/auth", tags=["auth"])
-app.include_router(herds_router.router, prefix="/api/v1/herds", tags=["herds"])
-app.include_router(reflections_router.router, prefix="/api/v1/reflections", tags=["reflections"])
-app.include_router(users_router.router, prefix="/api/v1/users", tags=["users"])
-app.include_router(reactions_router.router, prefix="/api/v1/reactions", tags=["reactions"])
-app.include_router(friends_router.router, prefix="/api/v1/friends", tags=["friends"])
-app.include_router(notifications_router.router, prefix="/api/v1/notifications", tags=["notifications"])
 
 @app.get("/")
 def root():

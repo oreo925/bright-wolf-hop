@@ -9,14 +9,14 @@ import { PlusCircle, History, Users, MessageCircleMore } from "lucide-react";
 import { MadeWithDyad } from "@/components/made-with-dyad"; // Import MadeWithDyad
 
 interface Reflection {
-  _id: string;
+  id: string;
   highText: string;
   lowText: string;
   buffaloText: string;
   createdAt: string;
 }
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/v1`;
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}`;
 
 const HomePage = () => {
   const { user, logout, token } = useAuth();
@@ -33,8 +33,7 @@ const HomePage = () => {
           if (response.ok) {
             const reflections = await response.json();
             if (reflections.length > 0) {
-              const sortedReflections = [...reflections].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-              setLatestReflection(sortedReflections[0]);
+              setLatestReflection(reflections[0]);
             }
           }
         } catch (error) {
@@ -126,7 +125,7 @@ const HomePage = () => {
               <h3 className="font-semibold text-lg text-blue-600 dark:text-blue-400">Buffalo:</h3>
               <p className="text-gray-700 dark:text-gray-300 line-clamp-2">{latestReflection.buffaloText}</p>
             </div>
-            <Link to={`/reflections/${latestReflection._id}`}>
+            <Link to={`/reflections/${latestReflection.id}`}>
               <Button variant="link" className="p-0 h-auto">
                 Read Full Reflection <MessageCircleMore className="ml-2 h-4 w-4" />
               </Button>

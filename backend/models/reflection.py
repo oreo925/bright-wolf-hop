@@ -21,7 +21,7 @@ class Reflection(Document):
     lowText: str
     buffaloText: str
     sharedWithType: str  # 'self', 'friend', 'herd'
-    sharedWithId: Optional[str] = None
+    sharedWithIds: Optional[List[str]] = []
     reactions: List[PydanticObjectId] = []
     createdAt: datetime = Field(default_factory=datetime.utcnow)
 
@@ -33,7 +33,7 @@ class ReflectionCreate(BaseModel):
     lowText: str
     buffaloText: str
     sharedWithType: str
-    sharedWithId: Optional[str] = None
+    sharedWithIds: Optional[List[str]] = []
 
 class ReactionCreate(BaseModel):
     reactionType: str = "tell_me_more"

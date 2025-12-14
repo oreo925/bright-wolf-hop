@@ -23,7 +23,7 @@ const SettingsPage = () => {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/users/me`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/users/me`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

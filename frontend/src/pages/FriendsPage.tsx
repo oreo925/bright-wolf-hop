@@ -9,7 +9,7 @@ import { useAuth } from "@/context/AuthContext";
 import { showSuccess, showError } from "@/utils/toast";
 import { X } from "lucide-react";
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/v1/`;
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/`;
 
 interface User {
   _id: string;

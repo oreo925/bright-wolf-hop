@@ -52,9 +52,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const login = async (email: string, password?: string): Promise<boolean> => {
-    console.log("Attempting to log in with API_BASE_URL:", API_BASE_URL);
+    const fullUrl = `${API_BASE_URL}/auth/login`;
+    console.log("Attempting to log in with full URL:", fullUrl);
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/login`, {
+      const response = await fetch(fullUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -78,9 +79,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const register = async (email: string, displayName: string, password?: string): Promise<boolean> => {
-    console.log("Attempting to register with API_BASE_URL:", API_BASE_URL);
+    const fullUrl = `${API_BASE_URL}/auth/signup`;
+    console.log("Attempting to register with full URL:", fullUrl);
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
+      const response = await fetch(fullUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, displayName, password }),

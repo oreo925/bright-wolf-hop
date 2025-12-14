@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useAuth } from "@/context/AuthContext";
 import { showSuccess, showError } from "@/utils/toast";
 
-const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/v1/`;
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/`;
 
 interface User {
   id: string;
@@ -30,7 +30,6 @@ const CreateReflectionPage = () => {
   const [lowText, setLowText] = useState("");
   const [buffaloText, setBuffaloText] = useState("");
   const [sharedWithType, setSharedWithType] = useState<"self" | "friend" | "herd">("self");
-  const [sharedWithId, setSharedWithId] = useState<string | undefined>(undefined);
 
   const [friends, setFriends] = useState<User[]>([]);
   const [userHerds, setUserHerds] = useState<Herd[]>([]);
@@ -164,7 +163,7 @@ const CreateReflectionPage = () => {
               <Label htmlFor="shareWith">Share With</Label>
               <Select value={sharedWithType} onValueChange={(value: "self" | "friend" | "herd") => {
                 setSharedWithType(value);
-                setSharedWithId(undefined); // Reset sharedWithId when type changes
+                // setSharedWithId(undefined); // Reset sharedWithId when type changes
               }}>
                 <SelectTrigger id="shareWith">
                   <SelectValue placeholder="Select sharing option" />

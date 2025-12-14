@@ -7,15 +7,13 @@ from models.reflection import Reflection, Reaction
 from models.friend import Friend
 from models.notification import Notification
 
+client = AsyncIOMotorClient(settings.MONGODB_URI)
+db = client.get_database("bright-wolf-hop")
+
 async def get_collection(name: str) -> "AsyncIOMotorCollection":
-    client = AsyncIOMotorClient(settings.MONGODB_URI)
-    db = client.get_database("bright-wolf-hop")
     return db[name]
 
 async def init_db():
-    client = AsyncIOMotorClient(settings.MONGODB_URI)
-    db = client.get_database("bright-wolf-hop")
-    
     await init_beanie(
         database=db,
         document_models=[
@@ -30,7 +28,6 @@ async def init_db():
 
 async def ping_server():
     try:
-        client = AsyncIOMotorClient(settings.MONGODB_URI)
         await client.admin.command("ping")
         return {"status": "ok"}
     except Exception as e:
