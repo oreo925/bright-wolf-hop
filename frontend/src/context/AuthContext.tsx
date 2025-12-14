@@ -52,6 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const login = async (email: string, password?: string): Promise<boolean> => {
+    console.log("Attempting to log in with API_BASE_URL:", API_BASE_URL);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
@@ -70,12 +71,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return false;
       }
     } catch (error) {
+      console.error("Login error:", error);
       showError("Login failed.");
       return false;
     }
   };
 
   const register = async (email: string, displayName: string, password?: string): Promise<boolean> => {
+    console.log("Attempting to register with API_BASE_URL:", API_BASE_URL);
     try {
       const response = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
@@ -94,6 +97,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return false;
       }
     } catch (error) {
+      console.error("Registration error:", error);
       showError("Registration failed.");
       return false;
     }
