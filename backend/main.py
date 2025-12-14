@@ -1,6 +1,7 @@
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import ping_server, init_db
+from core.config import settings
 from routes import auth as auth_router
 from routes import herds as herds_router
 from routes import reflections as reflections_router
@@ -20,7 +21,7 @@ router = APIRouter(prefix="/api/v1")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[settings.FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

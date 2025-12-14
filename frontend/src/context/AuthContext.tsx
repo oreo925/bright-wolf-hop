@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const fetchUserProfile = async (jwt: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}auth/me`, {
+      const response = await fetch(`${API_BASE_URL}/auth/me`, {
         headers: { Authorization: `Bearer ${jwt}` },
       });
       if (response.ok) {
@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (email: string, password?: string): Promise<boolean> => {
     try {
-      const response = await fetch(`${API_BASE_URL}auth/login`, {
+      const response = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (email: string, displayName: string, password?: string): Promise<boolean> => {
     try {
-      const response = await fetch(`${API_BASE_URL}auth/signup`, {
+      const response = await fetch(`${API_BASE_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, displayName, password }),

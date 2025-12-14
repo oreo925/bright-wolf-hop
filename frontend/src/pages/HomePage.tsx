@@ -16,7 +16,7 @@ interface Reflection {
   createdAt: string;
 }
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/v1`;
 
 const HomePage = () => {
   const { user, logout, token } = useAuth();

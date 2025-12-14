@@ -21,7 +21,7 @@ const Layout = ({ children }: LayoutProps) => {
     const fetchNotifications = async () => {
       if (isAuthenticated && user && token) {
         try {
-          const response = await fetch("http://localhost:8000/api/v1/notifications", {
+          const response = await fetch(`${import.meta.env.VITE_API_URL}/api/v1/notifications`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           if (response.ok) {

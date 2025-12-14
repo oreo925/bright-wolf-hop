@@ -21,7 +21,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/v1`;
 
 interface User {
   id: string;

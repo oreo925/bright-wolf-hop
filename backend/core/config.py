@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     MONGODB_URI: str
     JWT_SECRET: str
     JWT_EXPIRES_IN: int
+    FRONTEND_URL: str
 
     class Config:
         # The env_file path is now handled by the explicit load_dotenv call

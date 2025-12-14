@@ -5,7 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { showError, showSuccess } from "@/utils/toast";
 import { Button } from "@/components/ui/button";
 
-const API_BASE_URL = "http://localhost:8000/api/v1";
+const API_BASE_URL = `${import.meta.env.VITE_API_URL}/api/v1`;
 
 interface Notification {
   _id: string;
