@@ -25,6 +25,7 @@ app.add_middleware(
         "https://bright-wolf-hop-front.onrender.com",
         settings.FRONTEND_URL,
         "http://localhost:3000",
+        "http://localhost:5137",
     ],
     allow_credentials=True,
     allow_methods=["*"],
