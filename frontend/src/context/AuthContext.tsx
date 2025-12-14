@@ -66,7 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return true;
       } else {
         const errorData = await response.json();
-        showError(errorData.error || "Invalid email or password.");
+        showError(errorData.detail || "Invalid email or password.");
         return false;
       }
     } catch (error) {
@@ -90,7 +90,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         return true;
       } else {
         const errorData = await response.json();
-        showError(errorData.error || "Registration failed.");
+        showError(errorData.detail || "Registration failed.");
         return false;
       }
     } catch (error) {
